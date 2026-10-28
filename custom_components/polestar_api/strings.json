@@ -198,6 +198,11 @@
       "polestar_washer_fluid_level_warning": {
         "name": "Washer Fluid Level Warning"
       }
+    },
+    "device_tracker": {
+      "polestar_location": {
+        "name": "Location"
+      }
     }
   }
 }

@@ -34,6 +34,7 @@ class PolestarEntityDataSource(StrEnum):
     GRPC_TARGET_SOC = "grpc_target_soc_data"
     GRPC_EXTERIOR = "grpc_exterior_data"
     GRPC_HEALTH = "grpc_health_data"
+    GRPC_LOCATION = "grpc_location_data"
 
 
 class PolestarEntityDataSourceException(Exception):

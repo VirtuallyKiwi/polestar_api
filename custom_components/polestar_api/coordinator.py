@@ -14,6 +14,7 @@ from pypolestar.grpc_models import (
     GrpcBatteryData,
     GrpcExteriorData,
     GrpcHealthData,
+    GrpcLocationData,
     GrpcTargetSocData,
 )
 from pypolestar.models import (
@@ -71,6 +72,7 @@ class PolestarCoordinator(DataUpdateCoordinator):
         self.grpc_target_soc_data: GrpcTargetSocData | None = None
         self.grpc_exterior_data: GrpcExteriorData | None = None
         self.grpc_health_data: GrpcHealthData | None = None
+        self.grpc_location_data: GrpcLocationData | None = None
 
     @property
     def model(self) -> str:
@@ -155,6 +157,13 @@ class PolestarCoordinator(DataUpdateCoordinator):
             else:
                 self.grpc_health_data = None
                 _LOGGER.debug("No gRPC health data for VIN %s", self.vin)
+
+            # Last parked location: pypolestar already fetches it each update.
+            if self.polestar_api.is_grpc_location_supported(self.vin):
+                self.grpc_location_data = self.polestar_api.get_grpc_location(self.vin)
+            else:
+                self.grpc_location_data = None
+                _LOGGER.debug("No gRPC location data for VIN %s", self.vin)
 
         except PolestarAuthFailedException as exc:
             _LOGGER.error("Authentication failed for VIN %s: %s", self.vin, str(exc))
